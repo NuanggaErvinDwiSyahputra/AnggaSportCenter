@@ -1,4 +1,11 @@
-  export const BlogList = [
+export const ProfileData = {
+  name: 'Nuangga Ervin',
+  image:
+        'https://i.pinimg.com/474x/43/da/fa/43dafaccb737b316698f4ea6e62b598e.jpg',
+  image2:
+        'https://i.pinimg.com/474x/fb/95/63/fb95636f8a44b33c6314bf02f7a17fc5.jpg',
+};
+ export const BlogList = [
     {
       id: 1,
       title: 'Badminton',

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View,TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Receipt21, Clock, Message, Star1, Add} from 'iconsax-react-native';
 import React from 'react';
@@ -21,9 +21,11 @@ const ItemSmall = ({item}) => {
             <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
                 <Text style={styles.cardTitle}>{item.title}</Text>
                 <View>
+                <TouchableOpacity style={styles.cardTitle} onPress={()=>{}}>
                  <View style={{backgroundColor: '#000000', borderRadius: 10}}>
                     <Add size={30} color={colors.white()}/>
                  </View>
+                 </TouchableOpacity>
                 </View>
             </View>
         <View style={{flexDirection:'row', gap:5, alignItems:'center'}}>
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     gap: 154,
   },
   cardItem: {
-    backgroundColor: colors.white(),
+    backgroundColor: colors.backgroundColor(),
     flexDirection: 'row',
     borderWidth:3,
     borderColor: colors.black(),

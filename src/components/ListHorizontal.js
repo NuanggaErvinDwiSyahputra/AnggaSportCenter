@@ -5,6 +5,7 @@ import FastImage from 'react-native-fast-image';
 import { fontType, colors } from '../theme';
 const ItemHorizontal = ({item, variant, onPress}) => {
   return (
+    <TouchableOpacity style={ItemHorizontal.cardItem} onPress={()=>{}}>
     <View style={itemHorizontal.cardItem}>
       <FastImage
         style={itemHorizontal.cardImage}
@@ -30,6 +31,7 @@ const ItemHorizontal = ({item, variant, onPress}) => {
               </View>  
             </View>
     </View>
+    </TouchableOpacity>
   );
 };
 const ListHorizontal = ({data}) => {
@@ -68,7 +70,7 @@ const itemHorizontal = StyleSheet.create({
     cardItem: {
         width: 310,
         flexDirection:'column',
-        backgroundColor: 'white',
+        backgroundColor: colors.backgroundColor(),
         borderRadius:15,
         padding:10,
       },
