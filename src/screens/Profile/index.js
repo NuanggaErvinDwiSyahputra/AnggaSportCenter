@@ -4,6 +4,7 @@ import {InfoCircle, LogoutCurve, Setting2, MessageQuestion,Home2,Book,ProfileCir
 import { fontType, colors } from '../../theme';
 import {ProfileData} from '../../../data';
 import FastImage from 'react-native-fast-image';
+import { Image } from 'react-native-svg';
 
 const Profile = () => {
     return (
@@ -64,17 +65,6 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style= {styles.footer}>
-          <TouchableOpacity onPress={() => 'home'} style={styles.startbottom}>
-            <Home2 style={{marginLeft:30,marginRight:25}} color={colors.darkModeBlack()} size={25}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => 'home'} style={styles.startbottom}>
-            <Book style={{marginLeft:30,marginRight:25}} color={colors.darkModeBlack()}  size={25}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => 'home'} style={styles.startbottom}>
-            <ProfileCircle style={{marginLeft:30,marginRight:25}} color={colors.darkModeBlack()} size={25}/>
-          </TouchableOpacity>
-        </View>  
       </View>
     );
   };

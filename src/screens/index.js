@@ -1,4 +1,5 @@
 import Home from "./Home";
 import Profile from "./Profile";
 import Order from "./Order";
-export {Home,Profile,Order}
+import Booking from "./Booking";
+export {Home,Profile,Order,Booking}

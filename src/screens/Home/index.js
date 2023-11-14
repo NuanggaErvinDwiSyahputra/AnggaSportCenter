@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, View, TouchableOpacity, TextInput, handleSearchPress,searchText} from 'react-native';
-import {SearchNormal, Menu, Book, Message, ProfileCircle, Home2} from 'iconsax-react-native';
+import {SearchNormal, Menu, Book, ProfileCircle, Home2,Add} from 'iconsax-react-native';
 import {BlogList} from '../../../data';
 import { fontType, colors } from '../../theme';
 import { ListHorizontal, ItemSmall } from '../../components';
@@ -76,17 +76,6 @@ export default function Home() {
         </View>
       </View>
       <ListBlog/>  
-      <View style= {styles.footer}>
-        <TouchableOpacity onPress={() => 'home'} style={styles.startbottom}>
-          <Home2 style={{marginLeft:30,marginRight:25}} color={colors.darkModeBlack()} size={25}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => 'home'} style={styles.startbottom}>
-          <Book style={{marginLeft:30,marginRight:25}} color={colors.darkModeBlack()}  size={25}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => 'home'} style={styles.startbottom}>
-          <ProfileCircle style={{marginLeft:30,marginRight:25}} color={colors.darkModeBlack()} size={25}/>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }; 

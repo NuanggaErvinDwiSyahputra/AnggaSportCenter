@@ -1,14 +1,11 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Star1} from 'iconsax-react-native';
 import React from 'react';
 import {fontType, colors} from '../theme';
 import {useNavigation} from '@react-navigation/native';
 
-const ItemSmall = ({item}) => {
+const itemBooking = ({item}) => {
   return (
-    <TouchableOpacity   
-      onPress={() => navigation.navigate('Order', {blogId: item.id})}>
       <View style={styles.cardItem}>
         <FastImage
           style={styles.cardImage}
@@ -24,23 +21,22 @@ const ItemSmall = ({item}) => {
             <Text style={styles.cardTitle}>{item.title}</Text>
           </View>
           <View style={{flexDirection: 'row', gap: 5, alignItems: 'center'}}>
-            <Star1 color="#FFB000" size={20} />
-            <Text style={styles.cardRate}>{item.rating}</Text>
-            <Text style={styles.cardCategory}>{item.views}</Text>
+            <Text style={styles.cardRate}>{item.tanggal}</Text>
           </View>
           <View style={{flexDirection: 'row', gap: 2, alignItems: 'center'}}>
-            <Text style={styles.cardRate}>{item.harga}</Text>
-            <Text style={styles.cardCategory}>{item.bulan}</Text>
+            <Text style={styles.cardRate}>{item.jam}</Text>
+          </View>
+          <View style={{flexDirection: 'row', gap: 2, alignItems: 'center'}}>
+            <Text style={styles.cardRate}>{item.lapangan}</Text>
           </View>
         </View>
       </View>
-    </TouchableOpacity>
   );
 };
 
 const navigation = useNavigation();
 
-export default ItemSmall;
+export default itemBooking;
 const styles = StyleSheet.create({
   listCard: {
     paddingHorizontal: 24,
@@ -74,9 +70,9 @@ const styles = StyleSheet.create({
   },
   cardRate: {
     fontSize: 15,
-    fontFamily: fontType['Pjs-SemiBold'],
+    fontFamily: fontType['Pjs-Regular'],
     color: colors.black(),
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
   cardText: {
     fontSize: 10,
@@ -85,7 +81,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     width: 90,
-    height: 90,
+    height: 130,
     borderRadius: 10,
     resizeMode: 'cover',
   },

@@ -1,5 +1,16 @@
 import * as React from 'react';
-import Order from './src/screens/Order';
+import { NavigationContainer } from '@react-navigation/native';
+import Router from './src/navigation/router';
 export default function App() {
-  return <Order />;
+  return (
+    <NavigationContainer>
+     <Router/>
+    </NavigationContainer>
+  );
 }
+
+// import * as React from 'react';
+// import Order from './src/screens/Order';
+// export default function App() {
+//   return <Order />;
+// }
