@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 const ItemSmall = ({item}) => {
   return (
     <TouchableOpacity   
-      onPress={() => navigation.navigate('Order', {blogId: item.id})}>
+      onPress={() => navigation.navigate('Order', {id: item.id})}>
       <View style={styles.cardItem}>
         <FastImage
           style={styles.cardImage}

@@ -1,9 +1,22 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View, TouchableOpacity, TextInput, handleSearchPress,searchText} from 'react-native';
-import {SearchNormal, Menu, Book, ProfileCircle, Home2,Add} from 'iconsax-react-native';
+import React, {useRef,useSlide} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  handleSearchPress,
+  searchText,
+  Animated,
+} from 'react-native';
+import {
+  SearchNormal,
+  Menu,
+  ProfileCircle,
+} from 'iconsax-react-native';
 import {BlogList} from '../../../data';
-import { fontType, colors } from '../../theme';
-import { ListHorizontal, ItemSmall } from '../../components';
+import {fontType, colors} from '../../theme';
+import {ListHorizontal, ItemSmall} from '../../components';
 
 const ItemCategory = ({item, onPress, color}) => {
   return (
@@ -18,15 +31,36 @@ const ItemCategory = ({item, onPress, color}) => {
 const ListBlog = () => {
   const horizontalData = BlogList.slice(0, 5);
   const verticalData = BlogList.slice(5);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const diffClampY = Animated.diffClamp(scrollY, 0, 142);
+  const recentY = diffClampY.interpolate({
+    inputRange: [0, 20],
+    outputRange: [0, -20],
+    extrapolate: 'clamp',
+  });
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <Animated.ScrollView showsVerticalScrollIndicator={false}
+    onScroll=
+    {Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
+      useNativeDriver: true,
+    })}contentContainerStyle={{paddingTop: 15}}>
       <View style={styles.listBlog}>
-        <Text style={{fontSize:27, marginLeft:25,fontWeight:'bold',color:colors.black(), fontFamily: fontType['Raleway-Bold'],marginTop:10}}>
-            Find Your Favorite{"\n"}Sport Center
+        <Text
+          style={{
+            fontSize: 27,
+            marginLeft: 25,
+            fontWeight: 'bold',
+            color: colors.black(),
+            fontFamily: fontType['Raleway-Bold'],
+          }}>
+          Find Your Favorite{'\n'}Sport Center
         </Text>
       </View>
       <View style={{paddingHorizontal: 24, marginTop: 10}}>
-        <View style={styles.searchContainer}>
+        <Animated.View style={[
+              styles.searchContainer,
+              {transform: [{translateY: recentY}]},
+            ]}>
           <TextInput
             style={styles.input}
             placeholder="Find your best"
@@ -44,25 +78,48 @@ const ListBlog = () => {
               />
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.View>
       </View>
-      <View style={{marginLeft:25, marginRight:25, marginBottom:8, marginTop:15,flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-        <Text style={{fontSize:18,fontWeight:'600', color:colors.black()}}>Choose Your Sport Center</Text>
-        <Text style={{fontSize:13, color:colors.blue()}}>See All</Text>
+      <View
+        style={{
+          marginLeft: 25,
+          marginRight: 25,
+          marginBottom: 8,
+          marginTop: 15,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <Text style={{fontSize: 18, fontWeight: '600', color: colors.black()}}>
+          Choose Your Sport Center
+        </Text>
+        <Text style={{fontSize: 13, color: colors.blue()}}>See All</Text>
       </View>
       <View style={styles.listBlog}>
         <ListHorizontal data={horizontalData} />
-        <View style={{marginLeft:25, marginRight:25, marginBottom:5, marginTop:10,flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-        <Text style={{fontSize:18,fontWeight:'600', color:colors.black()}}>Choose Your Sport Class</Text>
-        <Text style={{fontSize:13, color:colors.blue()}}>See All</Text>
-      </View>
+        <View
+          style={{
+            marginLeft: 25,
+            marginRight: 25,
+            marginBottom: 5,
+            marginTop: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{fontSize: 18, fontWeight: '600', color: colors.black()}}>
+            Choose Your Sport Class
+          </Text>
+          <Text style={{fontSize: 13, color: colors.blue()}}>See All</Text>
+        </View>
         <View style={styles.listCard}>
           {verticalData.map((item, index) => (
             <ItemSmall item={item} key={index} />
           ))}
         </View>
       </View>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 
@@ -70,22 +127,22 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-          <Menu size="30" color={colors.black()}/>
-          <ProfileCircle size="30" color={colors.black()}/>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Menu size="30" color={colors.black()} />
+          <ProfileCircle size="30" color={colors.black()} />
         </View>
       </View>
-      <ListBlog/>  
+      <ListBlog />
     </View>
   );
-}; 
+}
 
 const styles = StyleSheet.create({
   searchButtonContainer: {
     paddingLeft: 14,
-    paddingRight:20,
+    paddingRight: 20,
   },
-  
+
   footer: {
     height: 40,
     width: '100%',
@@ -96,8 +153,8 @@ const styles = StyleSheet.create({
   startbottom: {
     flexDirection: 'row',
     alignItems: 'center',
-    color : 'black',
-    marginLeft:30,
+    color: 'black',
+    marginLeft: 30,
   },
 
   input: {
@@ -110,7 +167,7 @@ const styles = StyleSheet.create({
     height: 45,
   },
 
-  searchContainer : {
+  searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
@@ -124,11 +181,11 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 24,
-    height:52,
+    height: 52,
     elevation: 8,
-    paddingTop:8,
-    paddingBottom:4,
-    backgroundColor:colors.white()
+    paddingTop: 8,
+    paddingBottom: 4,
+    backgroundColor: colors.white(),
   },
   title: {
     fontSize: 20,
@@ -141,7 +198,6 @@ const styles = StyleSheet.create({
   listBlog: {
     gap: 10,
   },
-  
 });
 const category = StyleSheet.create({
   item: {
@@ -150,7 +206,6 @@ const category = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
     marginHorizontal: 3,
-    
   },
   title: {
     fontSize: 14,

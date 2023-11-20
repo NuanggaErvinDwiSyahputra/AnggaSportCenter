@@ -4,27 +4,127 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  ImageBackground,
   Text,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {fontType, colors} from '../../theme';
+import {Calendar} from 'react-native-calendars'
 import {useNavigation} from '@react-navigation/native';
-import ItemHome from '../../components/itemOrder';
+import {ArrowCircleLeft} from 'iconsax-react-native';
 import { BlogList } from '../../../data';
 
-const Order = () => {
-  const verticalData = BlogList.slice(1);
-  
+const Order = ({route}) => {
+  const {id} = route.params;
+  const selectedBlog = BlogList.find(blog => blog.id === id);
+
+  const [selected, setSelected] = useState('');
   return (
     <ScrollView>
-    <View>
-      {verticalData.map((item, index) => (
-        <ItemHome  item={item} key={index} />
-      ))}
-    </View>
-    </ScrollView>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <FastImage
+              style={Background.cover}
+              source={{
+                uri: selectedBlog?.image1,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.high,
+              }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          </View>
+          <View style={{position: 'absolute', left: 20, top: 30}}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <ArrowCircleLeft
+                color={colors.white()}
+                variant="Linear"
+                size={28}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <Calendar
+          onDayPress={day => {
+            setSelected(day.dateString);
+          }}
+          markedDates={{
+            [selected]: {
+              selected: true,
+              disableTouchEvent: true,
+              selectedDotColor: 'orange',
+            },
+          }}
+        />
+        <View
+          style={{
+            marginLeft: 20,
+            marginRight: 25,
+            marginBottom: 8,
+            marginTop: 5,
+            justifyContent: 'space-between',
+          }}>
+          <Text
+            style={{fontSize: 18, fontWeight: '400', color: colors.black()}}>
+            Choose a Field
+          </Text>
+        </View>
+        <View style={styles.cardItem}>
+          <TouchableOpacity style={styles.cardContent}>
+            <Text style={ButtonOrder.text}>{selectedBlog?.choose1}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cardContent}>
+            <Text style={ButtonOrder.text}>{selectedBlog?.choose2}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cardContent}>
+            <Text style={ButtonOrder.text}>{selectedBlog?.choose3}</Text>
+          </TouchableOpacity>
+          
+        </View>
+        <View
+          style={{
+            marginLeft: 20,
+            marginRight: 25,
+            marginBottom: 8,
+            marginTop: 10,
+            justifyContent: 'space-between',
+          }}>
+          <Text
+            style={{fontSize: 18, fontWeight: '400', color: colors.black()}}>
+            Choose a Clock
+          </Text>
+        </View>
+        <View style={Jam.cardItem}>
+          <TouchableOpacity style={Jam.cardContent}>
+            <Text style={Jam.text}>{selectedBlog?.time1}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={Jam.cardContent}>
+            <Text style={Jam.text}>{selectedBlog?.time2}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={Jam.cardContent}>
+            <Text style={Jam.text}>{selectedBlog?.time3}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={Jam.cardItem}>
+          <TouchableOpacity style={Jam.cardContent}>
+            <Text style={Jam.text}>{selectedBlog?.time4}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={Jam.cardContent}>
+            <Text style={Jam.text}>{selectedBlog?.time5}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={Jam.cardContent}>
+            <Text style={Jam.text}>{selectedBlog?.time6}</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity style={ButtonOrder.editProfile}>
+            <Text style={ButtonOrder.textEdit}>Booking</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      </ScrollView>
   );
 };
+
 
 const navigation = useNavigation();
 

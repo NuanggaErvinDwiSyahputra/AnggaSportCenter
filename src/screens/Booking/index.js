@@ -33,6 +33,7 @@ const ItemCategory = ({item, onPress, color}) => {
 };
 
 const ListBlog = item => {
+  
   const verticalData = BlogList.slice(0, 10);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>

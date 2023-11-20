@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const itemBooking = ({item}) => {
   return (
+      <TouchableOpacity onPress={() => navigation.navigate('Riwayat', {blogId: item.id})}>
       <View style={styles.cardItem}>
         <FastImage
           style={styles.cardImage}
@@ -31,6 +32,7 @@ const itemBooking = ({item}) => {
           </View>
         </View>
       </View>
+      </TouchableOpacity>
   );
 };
 
