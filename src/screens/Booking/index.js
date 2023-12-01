@@ -5,22 +5,13 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
-  handleSearchPress,
-  searchText,
 } from 'react-native';
-import {
-  SearchNormal,
-  Menu,
-  Star1,
-  ProfileCircle,
-  Home2,
-} from 'iconsax-react-native';
+import {Menu, ProfileCircle, Setting2, Edit} from 'iconsax-react-native';
 import {BlogList} from '../../../data';
 import {fontType, colors} from '../../theme';
-import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import Itembooking from '../../components/itemBooking';
+
 
 const ItemCategory = ({item, onPress, color}) => {
   return (
@@ -33,34 +24,39 @@ const ItemCategory = ({item, onPress, color}) => {
 };
 
 const ListBlog = item => {
-  
+  const navigation = useNavigation();
   const verticalData = BlogList.slice(0, 10);
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.listBlog}>
-        <Text
-          style={{
-            fontSize: 25,
-            marginLeft: 25,
-            fontWeight: '700',
-            color: colors.black(),
-            fontFamily: fontType['Pjs-Medium'],
-            marginTop: 10,
-            marginBottom: 15,
-          }}>
-          Transaction List
-        </Text>
-      </View>
-      <View style={styles.listCard}>
-        {verticalData.map((item, index) => (
-          <Itembooking item={item} key={index} />
-        ))}
-      </View>
-    </ScrollView>
+    <View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.listBlog}>
+          <Text
+            style={{
+              fontSize: 25,
+              marginLeft: 25,
+              fontWeight: '700',
+              color: colors.black(),
+              fontFamily: fontType['Pjs-Medium'],
+              marginTop: 10,
+              marginBottom: 15,
+            }}>
+            Transaction List
+          </Text>
+        </View>
+        <View style={styles.listCard}>
+          {verticalData.map((item, index) => (
+            <Itembooking item={item} key={index} />
+          ))}
+        </View>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => navigation.navigate('AddBlog')}>
+        <Edit color={colors.white()} variant="Linear" size={20} />
+      </TouchableOpacity>
+    </View>
   );
 };
-
-const navigation = useNavigation();
 
 export default function Booking() {
   return (
@@ -189,6 +185,23 @@ const styles = StyleSheet.create({
   },
   listBlog: {
     gap: 10,
+  },
+  floatingButton: {
+    backgroundColor: colors.blue(),
+    padding: 15,
+    position: 'absolute',
+    bottom: 64,
+    right: 24,
+    borderRadius: 10,
+    shadowColor: colors.blue(),
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
 });
 const category = StyleSheet.create({

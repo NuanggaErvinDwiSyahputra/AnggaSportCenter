@@ -1,9 +1,11 @@
 import React, {useRef,useSlide} from 'react';
+import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   TextInput,
   handleSearchPress,
   searchText,
@@ -29,6 +31,7 @@ const ItemCategory = ({item, onPress, color}) => {
 };
 
 const ListBlog = () => {
+  const navigation = useNavigation();
   const horizontalData = BlogList.slice(0, 5);
   const verticalData = BlogList.slice(5);
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -56,11 +59,10 @@ const ListBlog = () => {
           Find Your Favorite{'\n'}Sport Center
         </Text>
       </View>
+      
       <View style={{paddingHorizontal: 24, marginTop: 10}}>
-        <Animated.View style={[
-              styles.searchContainer,
-              {transform: [{translateY: recentY}]},
-            ]}>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate("SearchPage")}>
+        <View style={styles.searchContainer}>
           <TextInput
             style={styles.input}
             placeholder="Find your best"
@@ -69,7 +71,7 @@ const ListBlog = () => {
             placeholderTextColor="black"
           />
           <View style={styles.searchButtonContainer}>
-            <TouchableOpacity style={styles.searchButton}>
+            <TouchableOpacity style={styles.searchButton} >
               <SearchNormal
                 color={colors.black()}
                 variant="Linear"
@@ -78,8 +80,10 @@ const ListBlog = () => {
               />
             </TouchableOpacity>
           </View>
-        </Animated.View>
+        </View>
+        </TouchableWithoutFeedback>
       </View>
+      
       <View
         style={{
           marginLeft: 25,
@@ -95,7 +99,10 @@ const ListBlog = () => {
         </Text>
         <Text style={{fontSize: 13, color: colors.blue()}}>See All</Text>
       </View>
-      <View style={styles.listBlog}>
+      <Animated.View style={[
+              styles.listBlog,
+              {transform: [{translateY: recentY}]},
+            ]}>
         <ListHorizontal data={horizontalData} />
         <View
           style={{
@@ -118,7 +125,7 @@ const ListBlog = () => {
             <ItemSmall item={item} key={index} />
           ))}
         </View>
-      </View>
+      </Animated.View>
     </Animated.ScrollView>
   );
 };
