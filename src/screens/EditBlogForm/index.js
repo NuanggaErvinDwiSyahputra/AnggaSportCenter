@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,11 +11,10 @@ import {
 import {ArrowLeft} from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
 import {fontType, colors} from '../../theme';
-import {Calendar} from 'react-native-calendars';
 import axios from 'axios';
 
-const AddBlogForm = () => {
-  const [loading, setLoading] = useState(false);
+const EditBlogForm = ({route}) => {
+  const {blogId} = route.params;
   // const datalapangan = [
   //   {id: 1, name: 'Field 1'},
   //   {id: 2, name: 'Field 2'},
@@ -23,28 +22,64 @@ const AddBlogForm = () => {
   //   {id: 4, name: 'Field 4'},
   // ];
   // const datajam = [
-  //   {jam: 1, time: '10.00 - 11.00'},
-  //   {jam: 2, time: '11.00 - 12.00'},
-  //   {jam: 3, time: '13.00 - 14.00'},
-  //   {jam: 4, time: '14.00 - 15.00'},
-  //   {jam: 5, time: '15.00 - 16.00'},
-  //   {jam: 6, time: '16.00 - 17.00'},
-  //   {jam: 7, time: '17.00 - 18.00'},
-  //   {jam: 8, time: '18.00 - 19.00'},
-  //   {jam: 9, time: '19.00 - 20.00'},
+  //   {i: 1, name: '10.00 - 11.00'},
+  //   {i: 2, name: '11.00 - 12.00'},
+  //   {i: 3, name: '13.00 - 14.00'},
+  //   {i: 4, name: '14.00 - 15.00'},
+  //   {i: 5, name: '15.00 - 16.00'},
+  //   {i: 6, name: '16.00 - 17.00'},
+  //   {i: 7, name: '17.00 - 18.00'},
+  //   {i: 8, name: '18.00 - 19.00'},
+  //   {i: 9, name: '19.00 - 20.00'},
   // ];
-  const handleUpload = async () => {
+  const [transaction, setBlogData] = useState({
+    title: '',
+    image,
+    jam: '',
+    lapangan: '',
+  });
+  const handleChange = (key, value) => {
+    setBlogData({
+      ...transaction,
+      [key]: value,
+    });
+  };
+  const [image, setImage] = useState(null);
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    getBlogById();
+  }, [blogId]);
+
+  const getBlogById = async () => {
+    try {
+      const response = await axios.get(
+        `https://656dedccbcc5618d3c243f7e.mockapi.io/anggasportcenter/sport/${blogId}`,
+      );
+      setBlogData({
+        title: response.data.title,
+        idorder: response.data.idorder,
+        jam: response.data.jam,
+        lapangan: response.data.lapangan,
+      });
+      setImage(response.data.image);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleUpdate = async () => {
     setLoading(true);
     try {
       await axios
-        .post(
-          'https://656dedccbcc5618d3c243f7e.mockapi.io/anggasportcenter/sport',
+        .put(
+          `https://656dedccbcc5618d3c243f7e.mockapi.io/anggasportcenter/sport/${blogId}`,
           {
             title: transaction.title,
             idorder: transaction.idorder,
             image,
-            jam:transaction.datajam,
-            lapangan : transaction.datalapangan,
+            jam: transaction.jam,
+            lapangan: transaction.lapangan,
           },
         )
         .then(function (response) {
@@ -59,22 +94,7 @@ const AddBlogForm = () => {
       console.log(e);
     }
   };
-  const [transaction, settransaction] = useState({
-    title: '',
-    image,
-    tanggal: '',
-    jam : '',
-    lapangan : '',
-  });
-  const handleChange = (key, value) => {
-    settransaction({
-      ...transaction,
-      [key]: value,
-    });
-  };
-  const [image, setImage] = useState(null);
-  const navigation = useNavigation();
-  const [selected, setSelected] = useState('');
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -82,7 +102,7 @@ const AddBlogForm = () => {
           <ArrowLeft color={colors.black()} variant="Linear" size={24} />
         </TouchableOpacity>
         <View style={{flex: 1, alignItems: 'center'}}>
-          <Text style={styles.title}>Transaction List</Text>
+          <Text style={styles.title}>Edit blog</Text>
         </View>
       </View>
       <ScrollView
@@ -91,7 +111,7 @@ const AddBlogForm = () => {
           paddingVertical: 10,
           gap: 10,
         }}>
-          <View style={textInput.borderSolid}>
+        <View style={textInput.borderSolid}>
           <TextInput
             placeholder="Id Order"
             value={transaction.idorder}
@@ -103,7 +123,7 @@ const AddBlogForm = () => {
         </View>
         <View style={textInput.borderSolid}>
           <TextInput
-            placeholder="Tittle"
+            placeholder="Title"
             value={transaction.title}
             onChangeText={text => handleChange('title', text)}
             placeholderTextColor={colors.grey(0.6)}
@@ -181,27 +201,25 @@ const AddBlogForm = () => {
               fontFamily: fontType['Pjs-Regular'],
               color: colors.grey(0.6),
             }}>
-            Time 
+            Time
           </Text>
           <View style={category.container}>
             {datajam.map((item, index) => {
               const bgColor =
-                item.jam === transaction.jam.jam
+                item.i === transaction.jam.i
                   ? colors.black()
                   : colors.grey(0.08);
               const color =
-                item.jam === transaction.jam.jam
-                  ? colors.white()
-                  : colors.grey();
+                item.i === transaction.jam.i ? colors.white() : colors.grey();
               return (
                 <TouchableOpacity
                   key={index}
                   onPress={() =>
-                    handleChange('jam', {jam: item.jam, time: item.time})
+                    handleChange('jam', {i: item.i, name: item.name})
                   }
                   style={[category.item, {backgroundColor: bgColor}]}>
                   <Text style={[category.name, {color: color}]}>
-                    {item.time}
+                    {item.name}
                   </Text>
                 </TouchableOpacity>
               );
@@ -210,8 +228,8 @@ const AddBlogForm = () => {
         </View> */}
       </ScrollView>
       <View style={styles.bottomBar}>
-        <TouchableOpacity style={styles.button} onPress={handleUpload}>
-          <Text style={styles.buttonLabel}>Upload</Text>
+        <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+          <Text style={styles.buttonLabel}>Update</Text>
         </TouchableOpacity>
       </View>
       {loading && (
@@ -223,7 +241,7 @@ const AddBlogForm = () => {
   );
 };
 
-export default AddBlogForm;
+export default EditBlogForm;
 
 const styles = StyleSheet.create({
   container: {
@@ -262,7 +280,7 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: colors.darkModeBlack(),
+    backgroundColor: colors.blue(),
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',

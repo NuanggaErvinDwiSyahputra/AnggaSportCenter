@@ -4,6 +4,8 @@ export const ProfileData = {
     'https://i.pinimg.com/474x/43/da/fa/43dafaccb737b316698f4ea6e62b598e.jpg',
   image2:
     'https://i.pinimg.com/474x/fb/95/63/fb95636f8a44b33c6314bf02f7a17fc5.jpg',
+    tittle: 'Badminton',
+    idorder:'351507',
 };
 export const BlogList = [
   {
@@ -67,7 +69,7 @@ export const BlogList = [
     image:
       'https://i.pinimg.com/474x/86/a8/32/86a832d631b6efee9276539d1cef1fcf.jpg',
     image1:
-      'https://i.pinimg.com/474x/06/97/45/069745379fee9b589b441a288d0ac911.jpg',
+      'https://i.pinimg.com/474x/c4/7c/3b/c47c3b165a2e4f9a591fa3e023a24df8.jpg',
     views: '(10k reviews)',
     harga: '$45,3',
     bulan: '/hr',

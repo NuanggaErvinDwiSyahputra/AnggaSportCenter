@@ -1,33 +1,61 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {Menu, ProfileCircle, Setting2, Edit} from 'iconsax-react-native';
 import {BlogList} from '../../../data';
 import {fontType, colors} from '../../theme';
-import {useNavigation} from '@react-navigation/native';
-import Itembooking from '../../components/itemBooking';
-
-
-const ItemCategory = ({item, onPress, color}) => {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={category.item}>
-        <Text style={{...category.title, color}}>{item.categoryName}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-};
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import axios from 'axios';
+import {formatNumber} from '../../utils/formatNumber';
+import {Itembooking} from '../../components';
 
 const ListBlog = item => {
   const navigation = useNavigation();
   const verticalData = BlogList.slice(0, 10);
+  const [loading, setLoading] = useState(true);
+  const [transaction, settransaction] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const gettransaction = async () => {
+    try {
+      const response = await axios.get(
+        'https://656dedccbcc5618d3c243f7e.mockapi.io/anggasportcenter/sport',
+      );
+      settransaction(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      getDataBlog();
+      setRefreshing(false);
+    }, 1500);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      gettransaction();
+    }, []),
+  );
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+        position: 'absolute',
+        top: 60,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.listBlog}>
           <Text
@@ -43,10 +71,14 @@ const ListBlog = item => {
             Transaction List
           </Text>
         </View>
-        <View style={styles.listCard}>
-          {verticalData.map((item, index) => (
-            <Itembooking item={item} key={index} />
-          ))}
+        <View style={{paddingVertical: 10, gap: 10}}>
+          {loading ? (
+            <ActivityIndicator size={'large'} color={colors.blue()} />
+          ) : (
+            transaction.map((item, index) => (
+              <Itembooking item={item} key={index} />
+            ))
+          )}
         </View>
       </ScrollView>
       <TouchableOpacity
@@ -190,7 +222,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue(),
     padding: 15,
     position: 'absolute',
-    bottom: 64,
+    bottom: 20,
     right: 24,
     borderRadius: 10,
     shadowColor: colors.blue(),

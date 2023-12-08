@@ -9,6 +9,7 @@ import {
   ProfileCircle,
 } from 'iconsax-react-native';
 import {fontType, colors} from '../theme';
+import EditBlogForm from '../screens/EditBlogForm';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -132,6 +133,18 @@ const Router = () => {
           animationTypeForReplace: 'pop',
           gestureEnabled: true,
           gestureDirection : 'horizontal',
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name="EditBlog"
+        component={EditBlogForm}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          animationTypeForReplace: 'pop',
+          gestureEnabled: true,
+          gestureDirection: 'horizontal',
           ...TransitionPresets.SlideFromRightIOS,
         }}
       />

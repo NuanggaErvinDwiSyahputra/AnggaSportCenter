@@ -5,4 +5,5 @@ import Booking from "./Booking";
 import Riwayat from "./Riwayat";
 import Search from "./Search";
 import AddBlogForm from "./AddBlogForm";
-export {Home,Profile,Order,Booking, Riwayat, Search, AddBlogForm}
+import EditBlogForm from "./EditBlogForm";
+export {Home,Profile,Order,Booking, Riwayat, Search, AddBlogForm, EditBlogForm}

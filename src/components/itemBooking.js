@@ -5,6 +5,7 @@ import {fontType, colors} from '../theme';
 import {useNavigation} from '@react-navigation/native';
 
 const itemBooking = ({item}) => {
+  const navigation = useNavigation();
   return (
       <TouchableOpacity onPress={() => navigation.navigate('Riwayat', {blogId: item.id})}>
       <View style={styles.cardItem}>
@@ -19,24 +20,13 @@ const itemBooking = ({item}) => {
         />
         <View style={styles.cardContent}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-          </View>
-          <View style={{flexDirection: 'row', gap: 5, alignItems: 'center'}}>
-            <Text style={styles.cardRate}>{item.tanggal}</Text>
-          </View>
-          <View style={{flexDirection: 'row', gap: 2, alignItems: 'center'}}>
-            <Text style={styles.cardRate}>{item.jam}</Text>
-          </View>
-          <View style={{flexDirection: 'row', gap: 2, alignItems: 'center'}}>
-            <Text style={styles.cardRate}>{item.lapangan}</Text>
+            <Text style={styles.cardTitle}>{item?.title}</Text>
           </View>
         </View>
       </View>
       </TouchableOpacity>
   );
 };
-
-const navigation = useNavigation();
 
 export default itemBooking;
 const styles = StyleSheet.create({
@@ -48,16 +38,15 @@ const styles = StyleSheet.create({
     gap: 154,
   },
   cardItem: {
-    backgroundColor: colors.backgroundColor(),
-    flexDirection: 'row',
-    borderWidth: 3,
-    borderColor: colors.black(),
-    borderRadius: 10,
-    borderRadius: 15,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
-    padding: 10,
+      backgroundColor: colors.backgroundColor(),
+      flexDirection: 'row',
+      borderWidth: 3,
+      borderColor: colors.black(),
+      borderRadius: 15,
+      marginLeft: 25,
+      marginRight: 25,
+      marginBottom: 10,
+      padding: 10,
   },
   cardCategory: {
     color: colors.black(),
